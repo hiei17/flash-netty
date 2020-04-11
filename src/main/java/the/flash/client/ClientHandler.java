@@ -1,6 +1,7 @@
 package the.flash.client;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import the.flash.protocol.Packet;
@@ -27,11 +28,15 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         loginRequestPacket.setUsername("flash");
         loginRequestPacket.setPassword("pwd");
 
+        //当前连接相关的分配器
+        ByteBufAllocator alloc = ctx.alloc();
         // 编码
-        ByteBuf buffer = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginRequestPacket);
+        ByteBuf buffer = PacketCodeC.INSTANCE//单例
+                .encode(alloc, loginRequestPacket);
 
         // 写数据
-        ctx.channel().writeAndFlush(buffer);
+        ctx.channel()//当前连接
+                .writeAndFlush(buffer);
     }
 
 
