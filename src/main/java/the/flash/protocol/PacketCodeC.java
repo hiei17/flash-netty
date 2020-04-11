@@ -35,6 +35,7 @@ public class PacketCodeC {
     }
 
     public void encode(ByteBuf byteBuf, Packet packet) {
+        
         // 1. 序列化 java 对象
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 

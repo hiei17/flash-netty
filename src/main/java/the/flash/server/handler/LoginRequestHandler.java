@@ -7,9 +7,16 @@ import the.flash.protocol.response.LoginResponsePacket;
 
 import java.util.Date;
 
+/**
+ * 继承这个SimpleXXX
+ * 就只有类型符合 <这个类型> 才会进来
+ * 也不用往下传了
+ */
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+    
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) {
+        
         System.out.println(new Date() + ": 收到客户端登录请求……");
 
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
@@ -23,8 +30,10 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
             System.out.println(new Date() + ": 登录失败!");
         }
 
+        //往里面放的是 java对象
         // 登录响应
         ctx.channel().writeAndFlush(loginResponsePacket);
+        //不用写往后传了 自动的
     }
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
