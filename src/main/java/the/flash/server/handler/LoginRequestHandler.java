@@ -10,7 +10,7 @@ import the.flash.util.SessionUtil;
 import java.util.Date;
 import java.util.UUID;
 
-public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {//mark 这个
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) {
@@ -23,6 +23,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
             String userId = randomUserId();
             loginResponsePacket.setUserId(userId);
             System.out.println("[" + loginRequestPacket.getUserName() + "]登录成功");
+            //mark 
             SessionUtil.bindSession(new Session(userId, loginRequestPacket.getUserName()), ctx.channel());
         } else {
             loginResponsePacket.setReason("账号密码校验失败");
@@ -42,8 +43,14 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         return UUID.randomUUID().toString().split("-")[0];
     }
 
+    /**
+     * 这个方法不受泛型影响
+     * @param ctx
+     */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+        
+        //mark 
         SessionUtil.unBindSession(ctx.channel());
     }
 }
