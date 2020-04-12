@@ -9,7 +9,7 @@ import the.flash.util.LoginUtil;
 import java.util.Date;
 import java.util.UUID;
 
-public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
+public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {//mark 这个泛型是收到的类型 和发出的无关
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
@@ -24,7 +24,7 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket loginResponsePacket) {
+    protected void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket loginResponsePacket) {//mark 这个类型才会进来
         if (loginResponsePacket.isSuccess()) {
             System.out.println(new Date() + ": 客户端登录成功");
             LoginUtil.markAsLogin(ctx.channel());
