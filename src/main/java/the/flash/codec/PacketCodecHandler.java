@@ -9,8 +9,10 @@ import the.flash.protocol.PacketCodec;
 
 import java.util.List;
 
+//mark 解码编码 合二为一
 @ChannelHandler.Sharable
 public class PacketCodecHandler extends MessageToMessageCodec<ByteBuf, Packet> {
+    
     public static final PacketCodecHandler INSTANCE = new PacketCodecHandler();
 
     private PacketCodecHandler() {
@@ -24,7 +26,7 @@ public class PacketCodecHandler extends MessageToMessageCodec<ByteBuf, Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Packet packet, List<Object> out) {
-        ByteBuf byteBuf = ctx.channel().alloc().ioBuffer();
+        ByteBuf byteBuf = ctx.channel().alloc().ioBuffer();//mark 手工分配
         PacketCodec.INSTANCE.encode(byteBuf, packet);
         out.add(byteBuf);
     }
