@@ -32,12 +32,12 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
-                        ch.pipeline().addLast(new Spliter());
-                        ch.pipeline().addLast(new PacketDecoder());
-                        ch.pipeline().addLast(new LoginRequestHandler());
-                        ch.pipeline().addLast(new AuthHandler());
-                        ch.pipeline().addLast(new MessageRequestHandler());
-                        ch.pipeline().addLast(new PacketEncoder());
+                        ch.pipeline().addLast(new Spliter());//拆包 和 魔术
+                        ch.pipeline().addLast(new PacketDecoder());//解码
+                        ch.pipeline().addLast(new LoginRequestHandler());//登陆 如果登陆成功 就标志
+                        ch.pipeline().addLast(new AuthHandler());//验证登陆, 没登陆的 走不下去
+                        ch.pipeline().addLast(new MessageRequestHandler());//消息
+                        ch.pipeline().addLast(new PacketEncoder());//编码 发出去
                     }
                 });
 
