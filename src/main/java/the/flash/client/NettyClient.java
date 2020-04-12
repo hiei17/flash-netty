@@ -41,11 +41,11 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) {
-                        ch.pipeline().addLast(new Spliter());
-                        ch.pipeline().addLast(new PacketDecoder());
-                        ch.pipeline().addLast(new LoginResponseHandler());
-                        ch.pipeline().addLast(new MessageResponseHandler());
-                        ch.pipeline().addLast(new PacketEncoder());
+                        ch.pipeline().addLast(new Spliter());//魔数 和 防粘包
+                        ch.pipeline().addLast(new PacketDecoder());//解码
+                        ch.pipeline().addLast(new LoginResponseHandler());//一连上 就发登陆表, 有收到登陆响应表 打日志
+                        ch.pipeline().addLast(new MessageResponseHandler());//如果是收到这个类型的指令 打印一下
+                        ch.pipeline().addLast(new PacketEncoder());//编码
                     }
                 });
 
